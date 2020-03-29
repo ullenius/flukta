@@ -33,8 +33,5 @@ build/
 # Config for Spring boot
 src/main/resources/application.properties
 
-#Image files
-*.png
-*.jpg
-*.jpeg
-*.gif
+# Upload dir
+upload/
