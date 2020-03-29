@@ -15,34 +15,16 @@ import se.anosh.flukta.service.StorageService;
 
 @Controller
 public class FileUploadController {
-	
+
 	private final StorageService service;
-	
+
 	@Autowired
 	public FileUploadController(StorageService service) {
 		this.service = service;
 	}
-	
+
 	@GetMapping("/")
 	public ModelAndView uploadForm() {
-		return new ModelAndView("upload");
-	}
-	
-	@PostMapping("/upload")
-	public ModelAndView upload(@RequestParam("file") MultipartFile file) {
-		
-		try {
-			service.store(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
-		}
-		return new ModelAndView("upload", "message", "File uploaded successfully!");
-		
-	}
-	
-	@GetMapping("/upload")
-	public ModelAndView upload() {
 		Set<String> listOfFiles;
 		try {
 			listOfFiles = service.listFiles();
@@ -52,4 +34,18 @@ public class FileUploadController {
 			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
 		}
 	}
+
+	@PostMapping("/upload")
+	public ModelAndView upload(@RequestParam("file") MultipartFile file) {
+
+		try {
+			service.store(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
+		}
+		return new ModelAndView("upload", "message", "File uploaded successfully!");
+
+	}
+
 }
