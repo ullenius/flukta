@@ -18,12 +18,15 @@
 	
 	<div>
 		<h2>Directory contents:</h2>
+		<div th:if="${files.isEmpty()}">
+			<span>no files found</span>
+		</div>
 		<ol>
 			<li th:each="file : ${files}" th:text="${file}"></li>
 		</ol>
 	
 	</div>	
-	
+	<hr />	
 	
 		<form action="/upload" enctype="multipart/form-data" method="POST">
 			<div>

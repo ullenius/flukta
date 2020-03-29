@@ -44,7 +44,7 @@ public class FileUploadController {
 			e.printStackTrace();
 			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
 		}
-		return new ModelAndView("upload", "message", "File uploaded successfully!");
+		return new ModelAndView("redirect:/");
 
 	}
 
