@@ -45,11 +45,13 @@ public class StorageServiceImplementation implements StorageService {
 		logger.info("original filename: {}", filename);
 		Path fullPath = Paths.get(UPLOAD_DIR + "/" + filename);
 
-		if (!isImage(fullPath))
-			throw new UnsupportedDataTypeException("File is not a valid image-file");
-
 		try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(fullPath.toFile()))) {
 			dataOutputStream.write(file.getBytes());
+		}
+		if (!isImage(fullPath)) {
+			logger.info("deleting file: {}", fullPath);
+			Files.deleteIfExists(fullPath);
+			throw new UnsupportedDataTypeException("File is not a valid image-file");
 		}
 	}
 

@@ -18,8 +18,10 @@
 	
 	<div>
 		<h2>Directory contents:</h2>
-		<div th:if="${files.isEmpty()}">
-			<span>no files found</span>
+		<div th:if="${files != NULL}">
+			<div th:if="${files.isEmpty()}">
+				<span>no files found</span>
+			</div>
 		</div>
 		<ol>
 			<li th:each="file : ${files}" th:text="${file}"></li>
