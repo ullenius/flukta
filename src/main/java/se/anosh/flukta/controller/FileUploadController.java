@@ -30,15 +30,15 @@ public class FileUploadController {
 	}
 	
 	@PostMapping("/upload")
-	public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
+	public ModelAndView upload(@RequestParam("file") MultipartFile file) {
 		
 		try {
 			service.store(file);
 		} catch (IOException e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>("Something went terribly wrong", HttpStatus.I_AM_A_TEAPOT);
+			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
 		}
-		return new ResponseEntity<String>("Success!", HttpStatus.ACCEPTED);
+		return new ModelAndView("upload", "message", "File uploaded successfully!");
 		
 	}
 

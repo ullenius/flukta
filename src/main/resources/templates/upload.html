@@ -12,15 +12,20 @@
 	<h1>Upload file</h1>
 	</header>
 	
-		<form action="http://localhost:8080/upload" enctype="multipart/form-data" method="POST">
-			<div class="newUserBox">
-				<div class="fieldSection">
-					<div class="fieldTitle">Filename</div>
+	<div>
+		<span th:if="${message != NULL}" th:text="${message}"></span>
+	</div>
+	
+	
+		<form action="/upload" enctype="multipart/form-data" method="POST">
+			<div>
+				<div>
+					<div>Filename</div>
 					<input type="file" name="file" placeholder="/tmp/file.png" required />
 				</div>
 		
 				<br/>
-				<input type="submit" value="Submit" class="button" />
+				<button type="submit" class="button">Submit</button>
 			</div>
 		</form>
 		

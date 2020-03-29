@@ -21,7 +21,6 @@ input {
   /* margin-left: 1em; */
   padding: 1em;
   border: none;
-  background-color: rgb(247,247,247); /* nice looking suttle grey colour */
 }
 select {
 	font-size: 130%;
