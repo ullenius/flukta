@@ -16,6 +16,14 @@
 		<span th:if="${message != NULL}" th:text="${message}"></span>
 	</div>
 	
+	<div>
+		<h2>Directory contents:</h2>
+		<ol>
+			<li th:each="file : ${files}" th:text="${file}"></li>
+		</ol>
+	
+	</div>	
+	
 	
 		<form action="/upload" enctype="multipart/form-data" method="POST">
 			<div>

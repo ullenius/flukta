@@ -1,10 +1,9 @@
 package se.anosh.flukta.controller;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +40,16 @@ public class FileUploadController {
 		return new ModelAndView("upload", "message", "File uploaded successfully!");
 		
 	}
-
+	
+	@GetMapping("/upload")
+	public ModelAndView upload() {
+		Set<String> listOfFiles;
+		try {
+			listOfFiles = service.listFiles();
+			return new ModelAndView("upload", "files", listOfFiles);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ModelAndView("upload", "message", "Something went terribly wrong! :(");
+		}
+	}
 }
