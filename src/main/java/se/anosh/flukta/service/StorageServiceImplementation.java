@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.activation.UnsupportedDataTypeException;
+import javax.imageio.ImageIO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,9 +27,9 @@ public class StorageServiceImplementation implements StorageService {
 
 
 	public StorageServiceImplementation() throws IOException {
-		
+
 		logger = LoggerFactory.getLogger(StorageServiceImplementation.class);
-		
+
 		dir = Paths.get(UPLOAD_DIR);
 
 		if (!Files.exists(dir)) {
@@ -40,8 +43,12 @@ public class StorageServiceImplementation implements StorageService {
 
 		String filename = file.getOriginalFilename();
 		logger.info("original filename: {}", filename);
+		Path fullPath = Paths.get(UPLOAD_DIR + "/" + filename);
 
-		try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(UPLOAD_DIR + "/" + filename))) {
+		if (!isImage(fullPath))
+			throw new UnsupportedDataTypeException("File is not a valid image-file");
+
+		try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(fullPath.toFile()))) {
 			dataOutputStream.write(file.getBytes());
 		}
 	}
@@ -58,6 +65,19 @@ public class StorageServiceImplementation implements StorageService {
 			}
 			return directoryListing;
 		}
+	}
+
+	private boolean isImage(Path file) {
+		try {
+			if (ImageIO.read(file.toFile()) == null)
+				return false;
+			else
+				return true;
+		} catch (IOException ex) {
+			logger.error("Error when determing if image", ex);
+			return false;
+		}
+
 	}
 
 
