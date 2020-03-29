@@ -30,8 +30,5 @@ build/
 ### VS Code ###
 .vscode/
 
-# Config for Spring boot
-src/main/resources/application.properties
-
 # Upload dir
 upload/
