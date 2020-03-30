@@ -1,10 +1,8 @@
 package se.anosh.flukta.service;
 
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -89,12 +87,9 @@ public class StorageServiceImplementation implements StorageService {
 
 		if (filename.contains("..") || filename.isEmpty())
 			throw new IllegalArgumentException("Illegal filename");
-		Path path = Paths.get(UPLOAD_DIR + "/" +filename);
-		
-		try (InputStream in = new FileInputStream(path.toFile())) {
-		byte[] contents = in.readAllBytes();
+		Path path = Paths.get(UPLOAD_DIR + "/" + filename);
+		byte[] contents = Files.readAllBytes(path);
 		return contents;
-		}
 	}
 
 
