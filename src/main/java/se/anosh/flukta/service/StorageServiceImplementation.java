@@ -1,8 +1,10 @@
 package se.anosh.flukta.service;
 
 import java.io.DataOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.activation.UnsupportedDataTypeException;
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
@@ -51,7 +53,7 @@ public class StorageServiceImplementation implements StorageService {
 		if (!isImage(fullPath)) {
 			logger.info("deleting file: {}", fullPath);
 			Files.deleteIfExists(fullPath);
-			throw new UnsupportedDataTypeException("File is not a valid image-file");
+			throw new IIOException("File is not a valid image-file");
 		}
 	}
 
@@ -80,6 +82,19 @@ public class StorageServiceImplementation implements StorageService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public byte[] getImage(String filename) throws IOException {
+
+		if (filename.contains("..") || filename.isBlank() || filename.isEmpty())
+			throw new IllegalArgumentException("Illegal filename");
+		Path path = Paths.get(UPLOAD_DIR + "/" +filename);
+		
+		try (InputStream in = new FileInputStream(path.toFile())) {
+		byte[] contents = in.readAllBytes();
+		return contents;
+		}
 	}
 
 

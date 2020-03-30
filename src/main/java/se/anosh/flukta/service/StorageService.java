@@ -9,5 +9,7 @@ public interface StorageService {
 
 	void store(MultipartFile file) throws IOException;
 	public Set<String> listFiles() throws IOException;
-
+	public byte[] getImage(String filename) throws IOException;
+	
+	
 }
