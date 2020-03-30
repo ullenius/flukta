@@ -24,7 +24,9 @@
 			</div>
 		</div>
 		<ol>
-			<li th:each="file : ${files}" th:text="${file}"></li>
+			<li th:each="file : ${files}">
+				<a th:href="@{${file}}"><span th:text="${file}">placeholder</span></a>
+			</li>
 		</ol>
 	
 	</div>	
