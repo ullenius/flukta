@@ -87,7 +87,7 @@ public class StorageServiceImplementation implements StorageService {
 	@Override
 	public byte[] getImage(String filename) throws IOException {
 
-		if (filename.contains("..") || filename.isBlank() || filename.isEmpty())
+		if (filename.contains("..") || filename.isEmpty())
 			throw new IllegalArgumentException("Illegal filename");
 		Path path = Paths.get(UPLOAD_DIR + "/" +filename);
 		
