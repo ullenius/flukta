@@ -43,7 +43,7 @@ public class StorageServiceImplementation implements StorageService {
 
 		String filename = file.getOriginalFilename();
 		logger.info("original filename: {}", filename);
-		Path fullPath = Paths.get(UPLOAD_DIR + "/" + filename);
+		Path fullPath = Paths.get(UPLOAD_DIR, filename);
 
 		try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(fullPath.toFile()))) {
 			dataOutputStream.write(file.getBytes());
@@ -76,7 +76,7 @@ public class StorageServiceImplementation implements StorageService {
 			else
 				return true;
 		} catch (IOException ex) {
-			logger.error("Error when determing if image", ex);
+			logger.error("Image type not recognised", ex);
 			return false;
 		}
 
@@ -87,7 +87,7 @@ public class StorageServiceImplementation implements StorageService {
 
 		if (filename.contains("..") || filename.isEmpty())
 			throw new IllegalArgumentException("Illegal filename");
-		Path path = Paths.get(UPLOAD_DIR + "/" + filename);
+		Path path = Paths.get(UPLOAD_DIR, filename);
 		byte[] contents = Files.readAllBytes(path);
 		return contents;
 	}
