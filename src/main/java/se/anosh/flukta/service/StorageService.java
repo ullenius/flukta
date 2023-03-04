@@ -8,8 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface StorageService {
 
 	void store(MultipartFile file) throws IOException;
-	public Set<String> listFiles() throws IOException;
-	public byte[] getImage(String filename) throws IOException;
+	Set<String> listFiles() throws IOException;
+	byte[] getImage(String filename) throws IOException;
 	
 	
 }

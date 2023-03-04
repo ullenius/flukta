@@ -27,25 +27,20 @@ public class StorageServiceImplementation implements StorageService {
 
 
 	public StorageServiceImplementation() throws IOException {
-
 		logger = LoggerFactory.getLogger(StorageServiceImplementation.class);
-
 		dir = Paths.get(UPLOAD_DIR);
-
 		if (!Files.exists(dir)) {
 			Files.createDirectory(dir);
 		}
-
 	}
 
 	@Override
 	public void store(MultipartFile file) throws IOException {
-
 		String filename = file.getOriginalFilename();
 		logger.info("original filename: {}", filename);
 		Path fullPath = Paths.get(UPLOAD_DIR, filename);
 
-		try (DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(fullPath.toFile()))) {
+		try (DataOutputStream dataOutputStream = new DataOutputStream(Files.newOutputStream(fullPath))) {
 			dataOutputStream.write(file.getBytes());
 		}
 		if (!isImage(fullPath)) {
@@ -57,9 +52,7 @@ public class StorageServiceImplementation implements StorageService {
 
 	@Override
 	public Set<String> listFiles() throws IOException {
-
 		Set<String> directoryListing = new TreeSet<>();
-
 		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
 			for (Path p : stream) {
 				logger.info("file: {}", p);
@@ -71,20 +64,15 @@ public class StorageServiceImplementation implements StorageService {
 
 	private boolean isImage(Path file) {
 		try {
-			if (ImageIO.read(file.toFile()) == null)
-				return false;
-			else
-				return true;
+			return ImageIO.read(file.toFile()) != null;
 		} catch (IOException ex) {
 			logger.error("Image type not recognised", ex);
 			return false;
 		}
-
 	}
 
 	@Override
 	public byte[] getImage(String filename) throws IOException {
-
 		if (filename.contains("..") || filename.isEmpty())
 			throw new IllegalArgumentException("Illegal filename");
 		Path path = Paths.get(UPLOAD_DIR, filename);

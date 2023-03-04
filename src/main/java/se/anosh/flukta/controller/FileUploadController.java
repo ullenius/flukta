@@ -49,16 +49,15 @@ public class FileUploadController {
 		byte[] image;
 		try {
 			image = service.getImage(filename);
-			return new ResponseEntity<byte[]>(image,HttpStatus.OK);
+			return new ResponseEntity<>(image, HttpStatus.OK);
 		} catch (IOException ex) {
 			logger.error("getImage - failed to fetch file" , ex);
-			return new ResponseEntity<byte[]>(HttpStatus.I_AM_A_TEAPOT);
+			return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
 		}
 	}
 
 	@PostMapping("/upload")
 	public ModelAndView upload(@RequestParam("file") MultipartFile file) {
-
 		try {
 			service.store(file);
 		} catch (IOException ex) {
