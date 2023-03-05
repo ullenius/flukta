@@ -1,7 +1,6 @@
 package se.anosh.flukta.service;
 
 import java.io.DataOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -19,15 +18,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class StorageServiceImplementation implements StorageService {
+class StorageServiceImpl implements StorageService {
 
 	private static final String UPLOAD_DIR = "upload";
 	private final Path dir;
 	private final Logger logger;
 
 
-	public StorageServiceImplementation() throws IOException {
-		logger = LoggerFactory.getLogger(StorageServiceImplementation.class);
+	public StorageServiceImpl() throws IOException {
+		logger = LoggerFactory.getLogger(StorageServiceImpl.class);
 		dir = Paths.get(UPLOAD_DIR);
 		if (!Files.exists(dir)) {
 			Files.createDirectory(dir);
